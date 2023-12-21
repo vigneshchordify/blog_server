@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true
+      autoIncrement: true,
+      primaryKey: true
     },
     email: {
       type: DataTypes.STRING,
@@ -24,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     uuid: {
       type: DataTypes.UUID,
-      primaryKey: true,
+     
       defaultValue: DataTypes.UUIDV4
     },
     title: {
