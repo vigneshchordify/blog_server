@@ -12,7 +12,7 @@ const registerSchema = Joi.object({
     email: Joi.string().email().required(),
     name: Joi.string().required(),
     password: Joi.string().required(),
-    confirmpassword:Joi.string().required()
+    confirmpassword: Joi.string().required()
 
 })
 
@@ -26,8 +26,8 @@ const loginSchema = Joi.object({
 const userRegistration = async (req, res) => {
     const { email, name, password } = req.body
 
-     // Check if email is provided
-     if (!email) {
+    // Check if email is provided
+    if (!email) {
         return res.status(200).json({
             message: 'Email is required',
         });
@@ -75,7 +75,7 @@ const userLogin = async (req, res) => {
                     res.status(200).json({
                         message: 'login success',
                         token: token,
-                        id:loginDetails.uuid
+                        id: loginDetails.uuid
 
                     })
 
@@ -107,24 +107,14 @@ const postBlog = async (req, res) => {
 
 
     try {
-        const { uuid,  title, description, image } = req.body
+        const { uuid, title, description, image } = req.body
 
-        if(!uuid){
-
-            res.send("no uuid")
-
-        }
-        else if(!title){
-            res.send("no title")
-        }
-        else if(!description){
-            res.send("no description")
-        }
 
         const userdata = await User.findOne({ where: { uuid: uuid } })
+
         if (userdata) {
-           
-            const createBlog = await Post.create({ uuid:uuid, email: userdata.email, title: title, description: description, image: image })
+
+            const createBlog = await Post.create({ uuid: uuid,name:userdata.name, email: userdata.email, title: title, description: description, image: image })
             res.status(200).json({
                 message: "post added successfully"
             })
@@ -146,6 +136,44 @@ const postBlog = async (req, res) => {
 
 }
 
+//get all blogs
+
+const getBlogs = async (req, res) => {
+    try {
+        const blogs = await Post.findAll()
+        res.status(200).json(blogs)
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+}
+
+const getspecific = async (req, res) => {
+    try {
+
+       const  {uuid}=req.body
+       const userdata = await Post.findAll({ where: { uuid: uuid } })
+
+       res.status(200).json(userdata)
+
+
+
+    }
+    catch (err) {
+
+        res.send(err)
+
+    }
+}
+
+//single blog controller
+
+const getSingleBlog=async(req,res)=>{
+    const {id}=req.params
+    console.log(id);
+    res.send(id)
+}
 
 //jwt authentication
 
@@ -179,6 +207,9 @@ module.exports = {
     userLogin,
     Authentication,
     postBlog,
+    getBlogs,
+    getspecific,
+    getSingleBlog,
     registerSchema
 
 }
