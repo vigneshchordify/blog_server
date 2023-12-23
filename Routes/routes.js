@@ -1,5 +1,5 @@
 const express = require('express')
-const { userRegistration, userLogin, Authentication, postBlog, registerSchema, getBlogs,getspecific ,getSingleBlog} = require('../controllers/controllers')
+const { userRegistration, userLogin, Authentication, postBlog, registerSchema, getBlogs,getspecific ,getSingleBlog, updateBlog, getSinglePost, deleteBlog} = require('../controllers/controllers')
 const validator = require('express-joi-validation').createValidator({})
 
 
@@ -27,7 +27,13 @@ router.get('/getall', getBlogs)
 
 router.post('/particularblogs',getspecific)
 
-router.get('/singleblog/:id',getSingleBlog)
+router.get('/singleblog/:id',getSinglePost)
+
+router.post('/updateblog',Authentication,updateBlog)
+
+router.get('/deleteBlog/:id',deleteBlog)
+
+
 
 
 

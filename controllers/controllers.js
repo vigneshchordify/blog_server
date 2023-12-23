@@ -136,6 +136,77 @@ const postBlog = async (req, res) => {
 
 }
 
+
+const updateBlog = async (req, res) => {
+    try {
+        const { postId, uuid, title, description, image } = req.body;
+
+       
+        const userdata = await User.findOne({ where: { uuid: uuid } });
+
+        if (userdata) {
+          
+            const existingPost = await Post.findOne({ where: { id: postId } });
+
+            if (existingPost) {
+              
+                existingPost.title = title;
+                existingPost.description = description;
+                existingPost.image = image;
+
+                await existingPost.save();
+
+                res.status(200).json({
+                    message: "Post updated successfully",
+                });
+            } else {
+                res.status(404).json({
+                    message: "Post not found",
+                });
+            }
+        } else {
+            res.status(404).json({
+                message: "User not found",
+            });
+        }
+    } catch (err) {
+        res.status(400).json({
+            message: err.message || "Error updating post",
+        });
+    }
+};
+
+const getSinglePost = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        
+
+        
+
+      
+
+        const post = await Post.findOne({ where: { id: id } });
+
+        if (post) {
+            res.status(200).json({
+                message: "Post retrieved successfully",
+                post: post,
+            });
+        } else {
+            res.status(404).json({
+                message: "Post not found",
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: err.message || "Error retrieving post",
+        });
+    }
+};
+
+
+
 //get all blogs
 
 const getBlogs = async (req, res) => {
@@ -166,6 +237,39 @@ const getspecific = async (req, res) => {
 
     }
 }
+
+//delete  single blog
+
+const deleteBlog = async (req, res) => {
+    try { const { id } = req.params;
+
+        
+
+        
+
+      
+
+    const post = await Post.destroy({ where: { id: id } });
+
+    if (post) {
+        res.status(200).json({
+            message: "Post deleted",
+            post: post,
+        });
+    } else {
+        res.status(404).json({
+            message: "Post not found",
+        });
+    }
+     
+    } catch (err) {
+        res.status(400).json({
+            message: err.message || "Error updating post",
+        });
+    }
+};
+
+
 
 //single blog controller
 
@@ -210,6 +314,9 @@ module.exports = {
     getBlogs,
     getspecific,
     getSingleBlog,
+    getSinglePost,
+    updateBlog,
+    deleteBlog,
     registerSchema
 
 }
