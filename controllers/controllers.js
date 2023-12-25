@@ -4,8 +4,12 @@ const bycrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { where } = require('sequelize')
 const Joi = require('joi')
+require('dotenv').config();
 
-const jwtsecret = '32716b297df0651e2867c59195e1c07a983e68642abfbdb6fa16892bb453cda91e3b1c'
+
+const jwtsecret = process.env.JWT_SECRET;
+
+
 
 //joi validation schema
 const registerSchema = Joi.object({
