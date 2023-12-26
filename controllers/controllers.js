@@ -286,7 +286,7 @@ const getSingleBlog=async(req,res)=>{
 //jwt authentication
 
 const Authentication = async (req, res, next) => {
-    const apitoken = req.body.token
+    const apitoken = req.headers.token
 
     try {
 

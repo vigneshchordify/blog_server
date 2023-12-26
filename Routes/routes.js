@@ -29,7 +29,7 @@ router.post('/particularblogs',getspecific)
 
 router.get('/singleblog/:id',getSinglePost)
 
-router.post('/updateblog',Authentication,updateBlog)
+router.post('/updateblog',updateBlog)
 
 router.get('/deleteBlog/:id',deleteBlog)
 
